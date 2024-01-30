@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ButtonAddToCart = styled.button`
   width: 100%;
-  height: 52px;
+  height: 51px;
   border: none;
   justify-content: center;
   text-align: center;
