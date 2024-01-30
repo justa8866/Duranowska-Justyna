@@ -5,6 +5,7 @@
   "dependencies": {
     "@apollo/client": "^3.6.9",
     "@testing-library/user-event": "^13.5.0",
+    "firebase": "^10.7.2",
     "graphql": "^16.6.0",
     "html-react-parser": "^3.0.4",
     "normalize.css": "^8.0.1",

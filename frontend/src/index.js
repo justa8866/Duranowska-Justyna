@@ -7,7 +7,7 @@ import "normalize.css";
 import "./index.css";
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/",
+  uri: "https://us-central1-ecommerce-6e27c.cloudfunctions.net/graphql",
   cache: new InMemoryCache(),
 });
 
