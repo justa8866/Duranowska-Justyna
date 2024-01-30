@@ -50,7 +50,7 @@ export default class ProductBox extends Component {
               </OverlayImage>
             )}
           </ImageContainer>
-          {this.props.product.inStock == true ? (
+          {this.props.product.inStock === true ? (
             <>
               <Name>
                 {this.props.product.brand} {this.props.product.name}

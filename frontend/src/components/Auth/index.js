@@ -1,32 +1,50 @@
 import React from 'react';
-import { GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
-import 'firebase/app';
-import { auth } from '../../Firebase/firebase';
-import { FacebookAuthProvider, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { FacebookAuthProvider, GoogleAuthProvider, signInWithPopup, getAuth } from 'firebase/auth';
+import { initializeApp } from "firebase/app";
 
 const providerGoogle = new GoogleAuthProvider();
 const providerFacebook = new FacebookAuthProvider();
 
-class Login extends React.Component {
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+};
+
+export class Login extends React.Component {
+  app = null;
+  auth = null;
+
+  constructor() {
+    super()
+    try{
+      this.app = initializeApp(firebaseConfig);
+      this.auth = getAuth(this.app);
+    } catch(error) {
+      console.error(error)
+    }
+  }
+
   signWith(provider) {
-    signInWithPopup(auth, provider);
+    signInWithPopup(this.auth, provider);
   }
 
   render() {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '20px', border: '1px solid black', borderRadius: '10px' }}>
-          <h1>Welcome to chat</h1>
           <button onClick={() => this.signWith(providerGoogle)} style={{ margin: '10px', padding: '10px', backgroundColor: 'blue', color: 'white' }}>
-            <GoogleOutlined /> Sign in with Google
+            Sign in with Google
           </button>
           <button onClick={() => this.signWith(providerFacebook)} style={{ margin: '10px', padding: '10px', backgroundColor: 'blue', color: 'white' }}>
-            <FacebookOutlined /> Sign In with Facebook
+            Sign In with Facebook
           </button>
         </div>
       </div>
     );
   }
 }
-
-export default Login;

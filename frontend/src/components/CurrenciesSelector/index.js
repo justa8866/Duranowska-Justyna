@@ -60,6 +60,7 @@ class CurrenciesSelector extends Component {
       if (result.data.currencies) {
         result.data.currencies.map((currency, index) => {
           currencies.push({ label: currency.label, symbol: currency.symbol });
+          return null;
         });
       }
     }

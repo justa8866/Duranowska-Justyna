@@ -83,6 +83,7 @@ class ProductView extends Component {
             name: attribute.name,
             value: attribute.items[0].displayValue || null,
           });
+          return null;
         });
 
         this.setState({

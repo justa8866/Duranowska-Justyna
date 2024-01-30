@@ -17,6 +17,7 @@ import bag from "./bag.png";
 import CurrenciesSelector from "../CurrenciesSelector";
 import { withCategoryParam } from "../withRouter";
 import CartDropdown from "../CartDropdown";
+import { Login } from "../Auth";
 
 const GET_CATEGORIES = gql`
   query GetCategories {
@@ -142,6 +143,7 @@ class Navbar extends Component {
               onChangeDropDownVisibility={this.props.onChangeDropDownVisibility}
               DropDownVisibility={this.props.DropDownVisibility}
             />
+            <Login />
           </RightContainer>
         </Wrapper>
       </NavbarContainer>

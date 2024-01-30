@@ -16,6 +16,7 @@ export const addToCart = (product, attributes, quantity) => {
         name: attribute.name,
         value: attribute.items[0].displayValue || null,
       });
+      return null;
     });
   }
 
