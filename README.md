@@ -1,3 +1,6 @@
+Strona internetowa:
+https://ecommerce-6e27c.web.app/
+
 Description of website functionality
 
 1) Where to start 
@@ -42,4 +45,3 @@ Description of website functionality
   On the right side of the website, we have the other elements which belong to the list of the products like photos of products, the single product amount and the plus sign and the minus sign that let you change the amount of the products or remove the product. The arrow signs on the photo allow you to change the active photo into a different one when you click on it.
  
   The order button could redirect you to the payment page if it was working.
-
