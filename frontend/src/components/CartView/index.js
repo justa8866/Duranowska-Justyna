@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import CartItems from "../CartItems";
 import { NumericFormat } from "react-number-format";
-
+import { Link } from "react-router-dom";
+import CartItems from "../CartItems";
 import {
   Container,
   InnerContainer,
@@ -121,7 +121,9 @@ export default class CartView extends Component {
                 />
               </BoldText>
             </Row>
+            <Link to="/order">
             <Button>ORDER</Button>
+            </Link>
           </LastRow>
         </InnerContainer>
       </Container>

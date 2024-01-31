@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Product from "./pages/Product";
 import Products from "./pages/Products";
 import Cart from "./pages/Cart";
+import Order from "./pages/Order";
 
 export default class App extends Component {
   render() {
@@ -20,6 +21,7 @@ export default class App extends Component {
               element={<Product client={this.props.client} />}
             />
             <Route path="cart" element={<Cart client={this.props.client} />} />
+            <Route path="order" element={<Order client={this.props.client} />} />
           </Routes>
         </BrowserRouter>
       </>
