@@ -1,20 +1,39 @@
 import React, { Component } from "react";
 import Navbar from "../components/Navbar";
 import Login from "../components/Auth";
+import { auth } from "../components/Auth/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 class Order extends Component {
   constructor(props) {
     super(props);
+    const user = localStorage.getItem("user");
     this.state = {
       ActiveCurrency: {},
       ActiveCategory: "",
       cartItemsCount: 0,
+      isAuth: user ? true : false,
     };
   }
 
   componentDidMount() {
     this.getCartItemsCount();
+    this.unsubscribe = onAuthStateChanged(auth, this.onAuthStateChanged);
   }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  onAuthStateChanged = (user) => {
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+      this.setState({ isAuth: true });
+    } else {
+      localStorage.removeItem('user');
+      this.setState({ isAuth: false });
+    }
+  };
 
   getCartItemsCount() {
     const cart = localStorage.getItem("cart");
@@ -59,7 +78,7 @@ class Order extends Component {
           onChangeCartItem={this.onChangeCartItem}
           disableDropDown
         />
-        <Login />
+        {this.state.isAuth ? <>form</> : <Login />}
       </>
     );
   }
