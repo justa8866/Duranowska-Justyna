@@ -135,7 +135,7 @@ export default class DeliveryForm extends Component {
           from_name: `${this.state.firstName} ${this.state.lastName}`,
           email: this.getEmail(),
           reply_to: this.getEmail(),
-          message: `Your order has been placed. Your order ID is ${docRef.id}.`,
+          message: `Your order has been placed. Your order ID is ${docRef.id}. You will receive an email with the details of your order. Your order will be within 7 days to the address provided. Thank you for shopping with us!`,
         }, {
           publicKey: 'e-oE3m3EwqU6uZ7lU',
         })
