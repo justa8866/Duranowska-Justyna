@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import Navbar from "../components/Navbar";
 import Login from "../components/Auth";
-import { auth } from "../components/Auth/firebase";
+import { auth } from "../common/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import DeliveryForm from "../components/DeliveryForm/DeliveryForm";
 
 class Order extends Component {
   constructor(props) {
@@ -78,7 +79,7 @@ class Order extends Component {
           onChangeCartItem={this.onChangeCartItem}
           disableDropDown
         />
-        {this.state.isAuth ? <>form</> : <Login />}
+        {this.state.isAuth ? <DeliveryForm/> : <Login />}
       </>
     );
   }

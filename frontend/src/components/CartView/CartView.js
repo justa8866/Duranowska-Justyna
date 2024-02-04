@@ -55,6 +55,7 @@ export const Button = styled.button`
   color: var(--basicWhite);
   background: var(--green);
   margin-top: 15px;
+  margin-bottom: 15px;
   &:hover {
     cursor: pointer;
   }

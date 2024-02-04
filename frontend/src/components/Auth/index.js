@@ -1,6 +1,6 @@
 import React from "react";
 import { FacebookAuthProvider, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import app, { auth } from "./firebase";
+import app, { auth } from "../../common/firebase";
 import {
   CenteredContainer,
   StyledCard,
