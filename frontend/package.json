@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.6.9",
+    "@emailjs/browser": "^4.1.0",
     "@testing-library/user-event": "^13.5.0",
     "firebase": "^10.7.2",
     "graphql": "^16.6.0",

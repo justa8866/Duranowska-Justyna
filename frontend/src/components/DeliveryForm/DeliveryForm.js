@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { collection, addDoc } from "firebase/firestore";
+import emailjs from '@emailjs/browser';
 import { Container, MainText, Form, Label, Input, InputGroup, ErrorInput, ErrorMessage, Button } from "./DeliveryForm.style";
 import { db } from "../../common/firebase";
 
@@ -118,6 +119,7 @@ export default class DeliveryForm extends Component {
             isInvoiceRequired: this.state.isInvoiceRequired,
             company: this.state.company,
             taxId: this.state.taxId,
+            email: this.getEmail(),
           },
           shipping: {
             city: this.state.city,
@@ -128,6 +130,15 @@ export default class DeliveryForm extends Component {
           },
           products: this.getCart(),
         });
+        emailjs
+        .send('service_j2jtep2', 'template_xo9f0fl', {
+          from_name: `${this.state.firstName} ${this.state.lastName}`,
+          email: this.getEmail(),
+          reply_to: this.getEmail(),
+          message: `Your order has been placed. Your order ID is ${docRef.id}.`,
+        }, {
+          publicKey: 'e-oE3m3EwqU6uZ7lU',
+        })
         console.log("Document written with ID: ", docRef.id);
       } catch (e) {
         console.error("Error adding document: ", e);
@@ -146,6 +157,16 @@ export default class DeliveryForm extends Component {
     }
 
     return cart;
+  };
+
+  getEmail = () => {
+    const user = localStorage.getItem("user");
+
+    if (user) {
+      return JSON.parse(user).email;
+    }
+
+    return "";
   };
 
   renderInput = (name, type = "text") => {
