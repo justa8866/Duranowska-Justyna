@@ -171,7 +171,7 @@ class CartItems extends Component {
       return 0;
     }
 
-        return price.amount;
+    return price.amount;
   }
 
   render() {
