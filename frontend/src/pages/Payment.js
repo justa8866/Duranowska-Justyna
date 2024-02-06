@@ -4,10 +4,6 @@ import Login from "../components/Auth";
 import { auth } from "../common/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import PaymentForm from "../components/PaymentForm";
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
-
-const stripePromise = loadStripe('pk_test_51Ofp6nBfnAA6oPPm24KtO1quaHWzz7dxO3LsIGgcbLWd7Ya2zRz26OSDDS9hPiMX6KtoL2FjSI2y0y8yTJUMRKAt00sCQa3vgL');
 
 class Payment extends Component {
   constructor(props) {
@@ -84,11 +80,9 @@ class Payment extends Component {
           disableDropDown
         />
         {this.state.isAuth ? (
-          <Elements stripe={stripePromise}>
             <PaymentForm
               onPaymentSuccess={() => console.log("Payment successful!")}
             />
-          </Elements>
         ) : (
           <Login />
         )}

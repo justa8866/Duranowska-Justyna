@@ -101,7 +101,6 @@ const PaymentForm = () => {
 
   useEffect(() => {
     createPaymentIntent().then((paymentIntent) => {
-      console.log(paymentIntent);
       setClientSecret(paymentIntent.client_secret);
     });
   }, []);
