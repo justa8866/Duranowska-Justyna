@@ -4,6 +4,7 @@ import Product from "./pages/Product";
 import Products from "./pages/Products";
 import Cart from "./pages/Cart";
 import Order from "./pages/Order";
+import Payment from "./pages/Payment";
 
 export default class App extends Component {
   render() {
@@ -22,6 +23,7 @@ export default class App extends Component {
             />
             <Route path="cart" element={<Cart client={this.props.client} />} />
             <Route path="order" element={<Order client={this.props.client} />} />
+            <Route path="payment" element={<Payment client={this.props.client} />} />
           </Routes>
         </BrowserRouter>
       </>

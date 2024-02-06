@@ -20,12 +20,12 @@ export const SingleProduct = styled.div`
   }
 `;
 export const ImageContainer = styled.div`
-    width: 100%;
-    height: 100%:
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative; 
+  width: 100%;
+  height: 100%:
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 `;
 export const Image = styled.div`
   width: 100%;

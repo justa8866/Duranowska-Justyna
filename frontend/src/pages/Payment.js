@@ -3,9 +3,13 @@ import Navbar from "../components/Navbar";
 import Login from "../components/Auth";
 import { auth } from "../common/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import DeliveryForm from "../components/DeliveryForm";
+import PaymentForm from "../components/PaymentForm";
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 
-class Order extends Component {
+const stripePromise = loadStripe('pk_test_51Ofp6nBfnAA6oPPm24KtO1quaHWzz7dxO3LsIGgcbLWd7Ya2zRz26OSDDS9hPiMX6KtoL2FjSI2y0y8yTJUMRKAt00sCQa3vgL');
+
+class Payment extends Component {
   constructor(props) {
     super(props);
     const user = localStorage.getItem("user");
@@ -28,10 +32,10 @@ class Order extends Component {
 
   onAuthStateChanged = (user) => {
     if (user) {
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify(user));
       this.setState({ isAuth: true });
     } else {
-      localStorage.removeItem('user');
+      localStorage.removeItem("user");
       this.setState({ isAuth: false });
     }
   };
@@ -79,10 +83,18 @@ class Order extends Component {
           onChangeCartItem={this.onChangeCartItem}
           disableDropDown
         />
-        {this.state.isAuth ? <DeliveryForm/> : <Login />}
+        {this.state.isAuth ? (
+          <Elements stripe={stripePromise}>
+            <PaymentForm
+              onPaymentSuccess={() => console.log("Payment successful!")}
+            />
+          </Elements>
+        ) : (
+          <Login />
+        )}
       </>
     );
   }
 }
 
-export default Order;
+export default Payment;

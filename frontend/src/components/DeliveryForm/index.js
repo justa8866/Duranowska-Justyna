@@ -1,8 +1,19 @@
 import React, { Component } from "react";
 import { collection, addDoc } from "firebase/firestore";
-import emailjs from '@emailjs/browser';
-import { Container, MainText, Form, Label, Input, InputGroup, ErrorInput, ErrorMessage, Button } from "./DeliveryForm.style";
+import emailjs from "@emailjs/browser";
+import {
+  Container,
+  MainText,
+  Form,
+  Label,
+  Input,
+  InputGroup,
+  ErrorInput,
+  ErrorMessage,
+  Button,
+} from "./DeliveryForm.style";
 import { db } from "../../common/firebase";
+import { Link } from "react-router-dom";
 
 export default class DeliveryForm extends Component {
   constructor(props) {
@@ -130,15 +141,19 @@ export default class DeliveryForm extends Component {
           },
           products: this.getCart(),
         });
-        emailjs
-        .send('service_j2jtep2', 'template_xo9f0fl', {
-          from_name: `${this.state.firstName} ${this.state.lastName}`,
-          email: this.getEmail(),
-          reply_to: this.getEmail(),
-          message: `Your order has been placed. Your order ID is ${docRef.id}. You will receive an email with the details of your order. Your order will be within 7 days to the address provided. Thank you for shopping with us!`,
-        }, {
-          publicKey: 'e-oE3m3EwqU6uZ7lU',
-        })
+        emailjs.send(
+          "service_j2jtep2",
+          "template_xo9f0fl",
+          {
+            from_name: `${this.state.firstName} ${this.state.lastName}`,
+            email: this.getEmail(),
+            reply_to: this.getEmail(),
+            message: `Your order has been placed. Your order ID is ${docRef.id}. You will receive an email with the details of your order. Your order will be within 7 days to the address provided. Thank you for shopping with us!`,
+          },
+          {
+            publicKey: "e-oE3m3EwqU6uZ7lU",
+          }
+        );
         console.log("Document written with ID: ", docRef.id);
       } catch (e) {
         console.error("Error adding document: ", e);
@@ -151,9 +166,7 @@ export default class DeliveryForm extends Component {
     const cartStorage = localStorage.getItem("cart");
 
     if (cartStorage) {
-      JSON.parse(cartStorage).map((item) =>
-        cart.push({ ...item })
-      );
+      JSON.parse(cartStorage).map((item) => cart.push({ ...item }));
     }
 
     return cart;
@@ -187,7 +200,9 @@ export default class DeliveryForm extends Component {
             onChange={this.handleInputChange}
           />
         )}
-        {this.state.errors[name] && <ErrorMessage>{this.state.errors[name]}</ErrorMessage>}
+        {this.state.errors[name] && (
+          <ErrorMessage>{this.state.errors[name]}</ErrorMessage>
+        )}
       </InputGroup>
     );
   };
@@ -245,7 +260,9 @@ export default class DeliveryForm extends Component {
               </Label>
             </>
           )}
-          <Button type="submit">Submit Order</Button>
+          <Link to="/payment">
+            <Button type="submit">Submit Order</Button>
+          </Link>
         </Form>
       </Container>
     );
