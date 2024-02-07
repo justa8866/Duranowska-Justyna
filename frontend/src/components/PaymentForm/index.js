@@ -31,7 +31,7 @@ const CheckoutForm = () => {
     const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "https://ecommerce-6e27c.web.app/success",
+        return_url: "https://example.com/order/123/complete",
       },
     });
 
@@ -88,7 +88,7 @@ const PaymentForm = () => {
 
     const response = await axios({
       method: "post",
-      url: "https://ecommerce-6e27c.web.app/success",
+      url: "https://api.stripe.com/v1/payment_intents",
       data: `amount=${total.toFixed(2) * 100}&currency=usd&automatic_payment_methods[enabled]=true`,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

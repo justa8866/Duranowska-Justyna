@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import emailjs from "@emailjs/browser";
 import {
@@ -13,148 +13,158 @@ import {
   Button,
 } from "./DeliveryForm.style";
 import { db } from "../../common/firebase";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
-export default class DeliveryForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isInvoiceRequired: false,
-      firstName: "",
-      lastName: "",
-      street: "",
-      houseNumber: "",
-      apartmentNumber: "",
-      city: "",
-      postalCode: "",
-      phone: "",
-      company: "",
-      taxId: "",
-      errors: {
-        firstName: false,
-        lastName: false,
-        street: false,
-        houseNumber: false,
-        city: false,
-        postalCode: false,
-        phone: false,
-        company: false,
-        taxId: false,
-      },
-    };
-  }
+const DeliveryForm = () => {
+  const [state, setState] = useState({
+    isInvoiceRequired: false,
+    firstName: "",
+    lastName: "",
+    street: "",
+    houseNumber: "",
+    apartmentNumber: "",
+    city: "",
+    postalCode: "",
+    phone: "",
+    company: "",
+    taxId: "",
+    errors: {
+      firstName: false,
+      lastName: false,
+      street: false,
+      houseNumber: false,
+      city: false,
+      postalCode: false,
+      phone: false,
+      company: false,
+      taxId: false,
+    },
+  });
 
-  handleInputChange = (e) => {
+  const navigate = useNavigate();
+
+  const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     const inputValue = type === "checkbox" ? checked : value;
-    this.setState({ [name]: inputValue });
+    setState((prevState) => ({ ...prevState, [name]: inputValue }));
   };
 
-  validateForm = () => {
+  const validateForm = () => {
     let errors = {};
     let formIsValid = true;
 
-    if (!this.state.firstName) {
+    if (!state.firstName) {
       formIsValid = false;
       errors["firstName"] = "This field is required.";
     }
 
-    if (!this.state.lastName) {
+    if (!state.lastName) {
       formIsValid = false;
       errors["lastName"] = "This field is required.";
     }
 
-    if (!this.state.street) {
+    if (!state.street) {
       formIsValid = false;
       errors["street"] = "This field is required.";
     }
 
-    if (!this.state.houseNumber) {
+    if (!state.houseNumber) {
       formIsValid = false;
       errors["houseNumber"] = "This field is required.";
     }
 
-    if (!this.state.city) {
+    if (!state.city) {
       formIsValid = false;
       errors["city"] = "This field is required.";
     }
 
-    if (!this.state.postalCode) {
+    if (!state.postalCode) {
       formIsValid = false;
       errors["postalCode"] = "This field is required.";
     }
 
-    if (!this.state.phone) {
+    if (!state.phone) {
       formIsValid = false;
       errors["phone"] = "This field is required.";
-    } else if (typeof this.state.phone !== "undefined") {
+    } else if (typeof state.phone !== "undefined") {
       var pattern = new RegExp(/^[0-9\b]+$/);
-      if (!pattern.test(this.state.phone)) {
+      if (!pattern.test(state.phone)) {
         formIsValid = false;
         errors["phone"] = "Enter only number.";
-      } else if (this.state.phone.length !== 9) {
+      } else if (state.phone.length !== 9) {
         formIsValid = false;
         errors["phone"] = "Enter valid phone number.";
       }
     }
 
-    if (this.state.isInvoiceRequired) {
-      if (!this.state.company) {
+    if (state.isInvoiceRequired) {
+      if (!state.company) {
         formIsValid = false;
         errors["company"] = "This field is required.";
       }
 
-      if (!this.state.taxId) {
+      if (!state.taxId) {
         formIsValid = false;
         errors["taxId"] = "This field is required.";
       }
     }
 
-    this.setState({
+    setState({
+      ...state,
       errors: errors,
     });
 
     return formIsValid;
   };
 
-  handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (this.validateForm()) {
+    if (validateForm()) {
       try {
         const docRef = await addDoc(collection(db, "orders"), {
           customer: {
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            phone: this.state.phone,
-            isInvoiceRequired: this.state.isInvoiceRequired,
-            company: this.state.company,
-            taxId: this.state.taxId,
-            email: this.getEmail(),
+            firstName: state.firstName,
+            lastName: state.lastName,
+            phone: state.phone,
+            isInvoiceRequired: state.isInvoiceRequired,
+            company: state.company,
+            taxId: state.taxId,
+            email: getEmail(),
           },
           shipping: {
-            city: this.state.city,
-            postalCode: this.state.postalCode,
-            street: this.state.street,
-            houseNumber: this.state.houseNumber,
-            apartmentNumber: this.state.apartmentNumber,
+            city: state.city,
+            postalCode: state.postalCode,
+            street: state.street,
+            houseNumber: state.houseNumber,
+            apartmentNumber: state.apartmentNumber,
           },
-          products: this.getCart(),
+          products: getCart(),
         });
-        emailjs.send(
+        
+        emailjs
+        .send(
           "service_j2jtep2",
           "template_xo9f0fl",
           {
-            from_name: `${this.state.firstName} ${this.state.lastName}`,
-            email: this.getEmail(),
-            reply_to: this.getEmail(),
+            from_name: `${state.firstName} ${state.lastName}`,
+            email: getEmail(),
+            reply_to: getEmail(),
             message: `Your order has been placed. Your order ID is ${docRef.id}. You will receive an email with the details of your order. Your order will be within 7 days to the address provided. Thank you for shopping with us!`,
           },
           {
             publicKey: "e-oE3m3EwqU6uZ7lU",
           }
+        )
+        .then(
+          (response) => {
+            console.log("SUCCESS!", response.status, response.text);
+          },
+          (err) => {
+            console.log("FAILED...", err);
+          }
         );
-        window.location.href = "/payment";
+        navigate("/payment");
         console.log("Document written with ID: ", docRef.id);
       } catch (e) {
         console.error("Error adding document: ", e);
@@ -162,7 +172,7 @@ export default class DeliveryForm extends Component {
     }
   };
 
-  getCart = () => {
+  const getCart = () => {
     const cart = [];
     const cartStorage = localStorage.getItem("cart");
 
@@ -173,7 +183,7 @@ export default class DeliveryForm extends Component {
     return cart;
   };
 
-  getEmail = () => {
+  const getEmail = () => {
     const user = localStorage.getItem("user");
 
     if (user) {
@@ -183,89 +193,89 @@ export default class DeliveryForm extends Component {
     return "";
   };
 
-  renderInput = (name, type = "text") => {
+  const renderInput = (name, type = "text") => {
     return (
       <InputGroup>
-        {this.state.errors[name] ? (
+        {state.errors[name] ? (
           <ErrorInput
             type={type}
             name={name}
-            value={this.state[name]}
-            onChange={this.handleInputChange}
+            value={state[name]}
+            onChange={handleInputChange}
           />
         ) : (
           <Input
             type={type}
             name={name}
-            value={this.state[name]}
-            onChange={this.handleInputChange}
+            value={state[name]}
+            onChange={handleInputChange}
           />
         )}
-        {this.state.errors[name] && (
-          <ErrorMessage>{this.state.errors[name]}</ErrorMessage>
+        {state.errors[name] && (
+          <ErrorMessage>{state.errors[name]}</ErrorMessage>
         )}
       </InputGroup>
     );
   };
 
-  render() {
-    return (
-      <Container>
-        <MainText>DELIVERY FORM</MainText>
-        <Form onSubmit={this.handleSubmit}>
-          <Label>
-            First Name:
-            {this.renderInput("firstName")}
-          </Label>
-          <Label>
-            Last Name:
-            {this.renderInput("lastName")}
-          </Label>
-          <Label>
-            Phone:
-            {this.renderInput("phone")}
-          </Label>
-          <Label>
-            City:
-            {this.renderInput("city")}
-          </Label>
-          <Label>
-            Postal Code:
-            {this.renderInput("postalCode")}
-          </Label>
-          <Label>
-            Street:
-            {this.renderInput("street")}
-          </Label>
-          <Label>
-            House Number:
-            {this.renderInput("houseNumber")}
-          </Label>
-          <Label>
-            Apartment Number:
-            {this.renderInput("apartmentNumber")}
-          </Label>
-          <Label>
-            I want an invoice:
-            {this.renderInput("isInvoiceRequired", "checkbox")}
-          </Label>
-          {this.state.isInvoiceRequired && (
-            <>
-              <Label>
-                Company Name:
-                {this.renderInput("company")}
-              </Label>
-              <Label>
-                Tax ID:
-                {this.renderInput("taxId")}
-              </Label>
-            </>
-          )}
-          <Link to="/payment">
-            <Button type="submit">Submit Order</Button>
-          </Link>
-        </Form>
-      </Container>
-    );
-  }
-}
+  return (
+    <Container>
+      <MainText>DELIVERY FORM</MainText>
+      <Form onSubmit={handleSubmit}>
+        <Label>
+          First Name:
+          {renderInput("firstName")}
+        </Label>
+        <Label>
+          Last Name:
+          {renderInput("lastName")}
+        </Label>
+        <Label>
+          Phone:
+          {renderInput("phone")}
+        </Label>
+        <Label>
+          City:
+          {renderInput("city")}
+        </Label>
+        <Label>
+          Postal Code:
+          {renderInput("postalCode")}
+        </Label>
+        <Label>
+          Street:
+          {renderInput("street")}
+        </Label>
+        <Label>
+          House Number:
+          {renderInput("houseNumber")}
+        </Label>
+        <Label>
+          Apartment Number:
+          {renderInput("apartmentNumber")}
+        </Label>
+        <Label>
+          I want an invoice:
+          {renderInput("isInvoiceRequired", "checkbox")}
+        </Label>
+        {state.isInvoiceRequired && (
+          <>
+            <Label>
+              Company Name:
+              {renderInput("company")}
+            </Label>
+            <Label>
+              Tax ID:
+              {renderInput("taxId")}
+            </Label>
+          </>
+        )}
+        <Link to="/payment">
+          <Button type="submit">Submit Order</Button>
+        </Link>
+      </Form>
+    </Container>
+  );
+};
+
+export default DeliveryForm;
