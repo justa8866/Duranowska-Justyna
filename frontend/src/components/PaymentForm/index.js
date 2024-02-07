@@ -31,7 +31,7 @@ const CheckoutForm = () => {
     const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "https://example.com/order/123/complete",
+        return_url: "https://ecommerce-6e27c.web.app/success",
       },
     });
 
