@@ -17,6 +17,7 @@ class Success extends Component {
   }
 
   componentDidMount() {
+    localStorage.removeItem("cart");
     this.getCartItemsCount();
     this.unsubscribe = onAuthStateChanged(auth, this.onAuthStateChanged);
   }

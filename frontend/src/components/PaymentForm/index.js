@@ -28,19 +28,21 @@ const CheckoutForm = () => {
       return;
     }
 
-    const result = await stripe.confirmPayment({
+    const tempCart = localStorage.getItem("cart");
+    localStorage.removeItem("cart");
+
+    stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: "https://ecommerce-6e27c.web.app/success",
       },
+    }).then(function(result) {
+      if (result.error) {
+        // Show error to your customer (for example, payment details incomplete)
+        console.log(result.error.message);
+        localStorage.setItem("cart", tempCart);
+      }
     });
-
-    if (result.error) {
-      // Show error to your customer (for example, payment details incomplete)
-      console.log(result.error.message);
-    } else {
-      localStorage.removeItem("cart");
-    }
   };
 
   return (
