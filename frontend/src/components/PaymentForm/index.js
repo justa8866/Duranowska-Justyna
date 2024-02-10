@@ -9,9 +9,7 @@ import { Form, Button, Container, Label, MainText } from "./PaymentForm.style";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
-const stripePromise = loadStripe(
-  "pk_test_51Ofp6nBfnAA6oPPm24KtO1quaHWzz7dxO3LsIGgcbLWd7Ya2zRz26OSDDS9hPiMX6KtoL2FjSI2y0y8yTJUMRKAt00sCQa3vgL"
-);
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
 const CheckoutForm = () => {
   const stripe = useStripe();
@@ -94,7 +92,7 @@ const PaymentForm = () => {
       data: `amount=${total.toFixed(2) * 100}&currency=usd&automatic_payment_methods[enabled]=true`,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Bearer sk_test_51Ofp6nBfnAA6oPPmyNEmBbSRfxVNtoDY9reY0YmwYU5S5DDOSMPNwdC8GEQYRl1Df3RppkzbSuzneL1so61qJy4r000ehbhKg7`,
+        Authorization: `Bearer ${process.env.REACT_APP_STRIPE_SECRET_KEY}`,
       },
     });
 
