@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import Login from "../components/Auth";
 import { auth } from "../common/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-
+import SuccessInformation from "../components/SuccessInformation";
 class Success extends Component {
   constructor(props) {
     super(props);
@@ -80,14 +80,7 @@ class Success extends Component {
           disableDropDown
         />
         {this.state.isAuth ? (
-                  <div>
-                  <h2>Thank you for your payment!</h2>
-                  <p>Your payment has been successfully processed.</p>
-                  <p>You will receive an email with the details of your order.</p>
-                  <p>Your order will be delivered within 7 days to the provided address.</p>
-                  <p>Thank you for shopping with us!</p>
-                </div>
-
+        <SuccessInformation />
         ) : (
           <Login />
         )}

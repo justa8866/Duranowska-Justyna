@@ -4,6 +4,7 @@ export const Container = styled.div`
   width: 90%;
   margin: 0px auto;
 `;
+
 export const MainText = styled.div`
   font-family: "Raleway";
   font-style: normal;

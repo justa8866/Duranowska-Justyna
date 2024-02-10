@@ -133,7 +133,9 @@ class CartDropdown extends Component {
               <Link to="/cart">
                 <Button>View bag</Button>
               </Link>
+              <Link to="/order">
               <GreenButton>Check out</GreenButton>
+              </Link>
             </ButtonContainer>
           </Container>
         </DropdownMenu>
