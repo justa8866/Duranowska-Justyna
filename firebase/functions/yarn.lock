@@ -2366,9 +2366,7 @@
   "version" "3.4.3"
 
 "eslint@*", "eslint@^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8", "eslint@^6.0.0 || ^7.0.0 || ^8.0.0", "eslint@^6.0.0 || ^7.0.0 || >=8.0.0", "eslint@^8.9.0", "eslint@>=5.16.0":
-  "integrity" "sha512-Go19xM6T9puCOWntie1/P997aXxFsOi37JIHRWI514Hc6ZnaHGKY9xFhrU65RT6CcBEzZoGG1e6Nq+DT04ZtZQ=="
-  "resolved" "https://registry.npmjs.org/eslint/-/eslint-8.56.0.tgz"
-  "version" "8.56.0"
+  version "8.57.1"
   dependencies:
     "@eslint-community/eslint-utils" "^4.2.0"
     "@eslint-community/regexpp" "^4.6.1"
