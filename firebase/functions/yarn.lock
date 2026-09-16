@@ -2668,9 +2668,7 @@
     "@google-cloud/storage" "^6.9.5"
 
 "firebase-functions-test@^3.1.0":
-  "integrity" "sha512-IlDzcd+8rUd87hD1ZAPXsc3cX5JGdfpKmKlUJWdZJlErdyznwXssPQzbRPX8rh929ZhwmzGpubFBt7itkXAg+A=="
-  "resolved" "https://registry.npmjs.org/firebase-functions-test/-/firebase-functions-test-3.1.1.tgz"
-  "version" "3.1.1"
+  version "3.5.0"
   dependencies:
     "@types/lodash" "^4.14.104"
     "lodash" "^4.17.5"
